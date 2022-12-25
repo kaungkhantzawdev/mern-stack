@@ -1,21 +1,28 @@
 require('dotenv').config()
 const express = require('express')
-
+const WorkoutRoutes = require('./routes/workout')
+const mongoose = require('mongoose')
 //app
 const app = express()
 
-//middleware
+//middleware 
+app.use(express.json())
 app.use((req, res, next) => {
     console.log(req.path, req.method)
     next()
 })
 
 //routes
-app.get('/', (req, res) => {
-    res.json({ msg: 'Welcome to our app!'})
-})
+app.use('/api/workout', WorkoutRoutes)
 
 //listen
-app.listen(process.env.PORT, () => {
-    console.log('Listen port', process.env.PORT)
-})
+mongoose.set('strictQuery', false)
+mongoose.connect(process.env.MONG_URI)
+    .then(() => {
+        app.listen(process.env.PORT, () => {
+            console.log('Connected with mongoDB ,Listen port', process.env.PORT)
+        })
+    })
+    .catch(err => {
+        console.log(err)
+    })
