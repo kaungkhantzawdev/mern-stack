@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { fetchWorkouts } from "../../redux";
 
 const WorkoutForm = () => {
     const [ title, setTitle ] = useState('')
@@ -6,6 +8,8 @@ const WorkoutForm = () => {
     const [ qua, setQua ] = useState('')
     const [error, setError] = useState(null)
     const [emptyFields, setEmptyFields] = useState([])
+    const dispatch = useDispatch()
+    
 
     const handleSubmit = async (e) => {
       e.preventDefault();
@@ -21,6 +25,8 @@ const WorkoutForm = () => {
             }
           })
 
+      
+
       const json = await data.json()
 
       console.log(data)
@@ -33,6 +39,7 @@ const WorkoutForm = () => {
         setQua('')
         setError('')
         console.log(json)
+        dispatch(fetchWorkouts())
       }
       
     }

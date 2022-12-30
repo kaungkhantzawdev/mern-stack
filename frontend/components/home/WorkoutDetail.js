@@ -1,6 +1,9 @@
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
+import { useDispatch } from 'react-redux'
+import { fetchWorkouts } from '../../redux'
 const WorkoutDetail = ({ workout }) => {
 
+    const dispatch = useDispatch()
     const handleClick = async(e) => {
         let data = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/workout/${workout._id}`,{
             method: "DELETE"
@@ -12,6 +15,7 @@ const WorkoutDetail = ({ workout }) => {
             console.log(json)
         }else{
             console.log(json)
+            dispatch(fetchWorkouts())
         }
     }
 
