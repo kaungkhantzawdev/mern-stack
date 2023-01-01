@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { fetchWorkouts } from "../../redux";
+import axios from "axios";
 
 const WorkoutForm = () => {
     const [ title, setTitle ] = useState('')
@@ -16,29 +17,23 @@ const WorkoutForm = () => {
       
       console.log(title, load, qua)
       const workout = { title, load, qua }
-
-      const data = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/workout`, {
-            method: "POST",
-            body: JSON.stringify(workout),
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          })
-
-      
-
-      const json = await data.json()
+      const body = JSON.stringify(workout)
+      const config = {
+        'Content-Type': 'application/json'
+      }
+      const data = await axios.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/workout`, body, { headers: config })
 
       console.log(data)
-      if(!data.ok){
-        console.log(json.emptyFields)
-        setError(json.msg)
+      if(data.status !== 200){
+        // console.log(json.emptyFields)
+        console.log('error', data.response.data)
+        // setError(json.msg)
       }else{
         setTitle('')
         setLoad('')
         setQua('')
         setError('')
-        console.log(json)
+        console.log(data)
         dispatch(fetchWorkouts())
       }
       

@@ -22,6 +22,12 @@ export const workoutFail = ( error ) => {
 }
 
 export const fetchWorkouts = () => {
+
+    if(localStorage.getItem('user')){
+    axios.defaults.headers.common['Authorization'] = `Bearer ${JSON.parse(localStorage.getItem('user')).token}`;
+
+    }
+    axios.defaults.headers.common['Content-Type'] = 'application/json';
     return (dispatch) => {
         dispatch(workoutRequest())
         const base = process.env.NEXT_PUBLIC_APP_URL

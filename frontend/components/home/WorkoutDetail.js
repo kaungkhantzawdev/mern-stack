@@ -1,3 +1,4 @@
+import axios from 'axios'
 import formatDistanceToNow from 'date-fns/formatDistanceToNow'
 import { useDispatch } from 'react-redux'
 import { fetchWorkouts } from '../../redux'
@@ -5,16 +6,13 @@ const WorkoutDetail = ({ workout }) => {
 
     const dispatch = useDispatch()
     const handleClick = async(e) => {
-        let data = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/workout/${workout._id}`,{
-            method: "DELETE"
-        })
+        let data = await axios.delete(`${process.env.NEXT_PUBLIC_APP_URL}/api/workout/${workout._id}`)
 
-        let json = await data.json()
-
-        if(!data.ok){
-            console.log(json)
+        console.log(data)
+        if(data.status !== 200){
+            console.log(data)
         }else{
-            console.log(json)
+            console.log(data)
             dispatch(fetchWorkouts())
         }
     }

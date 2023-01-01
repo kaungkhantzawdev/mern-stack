@@ -1,1 +1,1 @@
-export * from './workout/workoutActions'
+export * from './workout/workoutActions';

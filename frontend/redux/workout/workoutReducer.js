@@ -3,7 +3,7 @@ import { failure, request, success } from "./workoutType"
 const initialState = {
     loading: true,
     workouts: [],
-    error: ''
+    error: '',
 }
 
 const workoutReducer = (state = initialState, action ) => {

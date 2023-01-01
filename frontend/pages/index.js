@@ -1,16 +1,24 @@
+
+
 import { useEffect, useState } from "react"
 import WorkoutDetail from "../components/home/WorkoutDetail"
 import WorkoutForm from "../components/home/WorkoutForm"
 import DefaultLayout from "../components/layouts/DefaultLayout"
 import { useDispatch, useSelector } from "react-redux"
 import { fetchWorkouts } from "../redux"
+import { useRouter } from "next/router"
 
 export default function Home() {
-
+  const router = useRouter()
+  
   const workouts = useSelector( state => state.workouts.workouts)
   const dispatch = useDispatch()
 
   useEffect(() => {
+    if(!JSON.parse(localStorage.getItem('user'))){
+      router.push('/login')
+    }
+    
     dispatch(fetchWorkouts())
   }, [])
   
